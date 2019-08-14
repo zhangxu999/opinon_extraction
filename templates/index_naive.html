@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>hello</title>
+        <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-md-3">
+                <h2>Amazing4</h2>
+                <h2><a class="btn btn-info" href="/index.html" role="button">真主页</a></h2>
+            </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <h1>请输入一个句子</h1>
+                    </div>
+                    <div class="row">
+                    <form action="/" method="post">
+                        <textarea class="form-control" rows="3" name="speech" >小军说明天西瓜要涨价</textarea>
+                        <p class="text-center">
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        </p>
+                    </form>
+                </div>
+                </div>        
+            <div class="col-md-3">
+                <h2>
+                    {% if person %}
+                        <h3> {{ person }}</h3>
+                    {% endif %}
+                    <h3> {{ action }}</h3>
+                    {% if speech %}
+                        <h3> {{ speech }}</h3>
+                    {% endif %}
+
+                </h2>
+            </div>
+
+        </div>
+                  
+
+    </body>
+</html>
