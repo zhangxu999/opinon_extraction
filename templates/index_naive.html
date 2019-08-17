@@ -19,28 +19,38 @@
                     </div>
                     <div class="row">
                     <form action="/" method="post">
-                        <textarea class="form-control" rows="3" name="speech" >小军说明天西瓜要涨价</textarea>
+                        <textarea class="form-control" rows="3" name="speech" >{{origin_text}}</textarea>
                         <p class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         </p>
                     </form>
                 </div>
-                </div>        
-            <div class="col-md-3">
-                <h2>
-                    {% if person %}
-                        <h3> {{ person }}</h3>
-                    {% endif %}
-                    <h3> {{ action }}</h3>
-                    {% if speech %}
-                        <h3> {{ speech }}</h3>
-                    {% endif %}
-
-                </h2>
-            </div>
+                </div>
 
         </div>
-                  
+       <div class="'row">
+           <div class = "col-md-12">
+                              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>人物</th>
+                              <th>动作</th>
+                              <th>言论</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for sp in speech %}
+                          <tr>
+                                <td>{{sp[0] }}</td>
+                                <td>{{ sp[1] }}</td>
+                                <td>{{ sp[2] }}</td>
+                          </tr>
+                          {% endfor %}
+                          </tbody>
+                        <table>
 
+       </div>
+           </div>
     </body>
 </html>
+
