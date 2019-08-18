@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from model.get_speech import get_speech
+from model.get_speech import get_speech,test_doc
 
 import json
 app = Flask(__name__, static_url_path="")
@@ -15,7 +15,7 @@ app = Flask(__name__, static_url_path="")
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return render_template('index_naive.html')
+        return render_template('index_naive.html',origin_text=test_doc)
     else:
         speech = request.form['speech']
         extration_result = get_speech(speech)
