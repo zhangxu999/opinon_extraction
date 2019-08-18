@@ -28,4 +28,4 @@ def extration(speech):
     extration_result = get_speech(speech)
     return json.dumps(extration_result, ensure_ascii=False)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9999, debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)
