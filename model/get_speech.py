@@ -9,7 +9,7 @@ import os
 from utils.load_data import load_synonyms
 from config import SYNONYMS_PATH, LTP_MODEL_PATH
 
-from model.speech import TfidfDecisimMaker
+from model.speech import TfidfDecisionMaker, Word2vecDecisionMaker
 
 class LTPManager:
     """
@@ -95,26 +95,28 @@ class SpeechExtractor:
                 for i, head_idx, relation in arcs:
                     subject, head = words[i], words[head_idx]
                     if head in matched_synonyms:
-                        one_speech = (subject, head, ''.join(words[head_idx+1:]))
-                        content.append(one_speech)
+                        content = [subject, head, ''.join(words[head_idx+1:])]
+                        break
+                        #发现一个触发次，就不再往下找了。
         return content
 
-    def get_speech(self, para):
+    def get_speech(self, para, finalize_method):
         # Get someone's speech from a paragraph
         result = list()
         split_sentence = self.ltp_manager.split_sentences(para)
         segmented_docs = [self.ltp_manager.segmentor.segment(s) for s in split_sentence]
-        tfidf_decisionmaker = None
+        decision_maker = None
         for i, sen in enumerate(segmented_docs):
             content = self.who_say_what(sen)
-            if content:
-                if tfidf_decisionmaker is None:
-                    tfidf_decisionmaker = TfidfDecisimMaker(segmented_docs)
-                end_index = tfidf_decisionmaker.get_end_index(i)
-                if end_index != i:
-                    content[3] += ''.join(split_sentence[i+1, end_index+1])
-
-                result.extend(content)
+            if not content:
+                continue
+            if decision_maker is None:
+                decision_maker = TfidfDecisionMaker(segmented_docs)\
+                    if finalize_method == 'tfidf' else Word2vecDecisionMaker(segmented_docs)
+            end_index = decision_maker.get_end_index(i)
+            if end_index != i:
+                content[2] += ''.join(split_sentence[i+1:end_index+1])
+            result.extend([content])
         return result
 
     def get_speech_from_file(self, file_name):
@@ -131,8 +133,8 @@ LTPM = LTPManager(data_dir=LTP_MODEL_PATH)
 SE = SpeechExtractor(synonyms_path=SYNONYMS_PATH, ltp_manager=LTPM)
 
 
-def get_speech(para):
-    return SE.get_speech(para)
+def get_speech(para,finalize_method):
+    return SE.get_speech(para,finalize_method)
 
 
 test_doc = """

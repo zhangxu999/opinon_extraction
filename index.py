@@ -15,12 +15,15 @@ app = Flask(__name__, static_url_path="")
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return render_template('index_naive.html',origin_text=test_doc)
+        return render_template('index_naive.html',origin_text=test_doc,select_tfidf='checked')
     else:
         speech = request.form['speech']
-        extration_result = get_speech(speech)
+        finalize_method = request.form['inlineRadioOptions']
+        print(finalize_method)
+        extration_result = get_speech(speech,finalize_method)
         print(extration_result)
-        return render_template('index_naive.html', speech=extration_result,origin_text=speech)
+        return render_template('index_naive.html',\
+            speech=extration_result,origin_text=speech,**{finalize_method:'checked'})
 
 
 @app.route('/extration/<speech>/', methods=['GET'])

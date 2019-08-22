@@ -21,6 +21,15 @@
                     <form action="/" method="post">
                         <textarea class="form-control" rows="3" name="speech" >{{origin_text}}</textarea>
                         <p class="text-center">
+                        <label class="radio-inline btn btn-primary">
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="select_tfidf" {{select_tfidf}}> TDIDF 确定言论结束
+                          </label>
+                          <label class="radio-inline btn btn-primary">
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="select_word2vec" {{select_word2vec}}> Word2vc词向量确定言论结束
+                          </label>   
+                        </p>
+                       
+                        <p class="text-center">
                                 <button type="submit" class="btn btn-primary btn-block">Submit</button>
                         </p>
                     </form>
