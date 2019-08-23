@@ -33,16 +33,16 @@ class TfidfDecisionMaker:
     def get_end_index(self,sen_index):
         base_vector = self.tfidf_X[sen_index]
         end_index = sen_index
-        print(''.join(self.sentences[sen_index]))
         check_indices = range(sen_index+1,min(self.doc_length, sen_index+self.max_length+1))
+        similaritys = []
         for i in check_indices:
             similarity = cosine_similarity(base_vector.reshape(1,-1), self.tfidf_X[i].reshape(1,-1))
             if similarity[0][0] > self.alpha:
-                print(similarity[0][0],''.join(self.sentences[i]))
                 end_index = i
+                similaritys.append(similarity[0][0])
             else:
                 break
-        return end_index 
+        return end_index ,similaritys
 
 class Word2vecDecisionMaker(TfidfDecisionMaker):
     def __init__(self,segmented_sentences, alpha=0.1, max_length=3):

@@ -17,13 +17,19 @@ def index():
     if request.method == 'GET':
         return render_template('index_naive.html',origin_text=test_doc,select_tfidf='checked')
     else:
+        print(request.form)
         speech = request.form['speech']
         finalize_method = request.form['inlineRadioOptions']
         print(finalize_method)
-        extration_result = get_speech(speech,finalize_method)
+        if finalize_method == 'select_tfidf':
+            alpha = float(request.form['tfidf_alpha'])
+        else:
+            alpha = float(request.form['Word2vc_alpha'])
+        extration_result = get_speech(speech,finalize_method, alpha)
         print(extration_result)
+
         return render_template('index_naive.html',\
-            speech=extration_result,origin_text=speech,**{finalize_method:'checked'})
+            speech=extration_result,origin_text=speech,**{finalize_method:'checked'},alpha=alpha)
 
 
 @app.route('/extration/<speech>/', methods=['GET'])

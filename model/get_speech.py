@@ -100,7 +100,7 @@ class SpeechExtractor:
                         #发现一个触发次，就不再往下找了。
         return content
 
-    def get_speech(self, para, finalize_method):
+    def get_speech(self, para, finalize_method, alpha):
         # Get someone's speech from a paragraph
         result = list()
         split_sentence = self.ltp_manager.split_sentences(para)
@@ -111,11 +111,13 @@ class SpeechExtractor:
             if not content:
                 continue
             if decision_maker is None:
-                decision_maker = TfidfDecisionMaker(segmented_docs)\
-                    if finalize_method == 'tfidf' else Word2vecDecisionMaker(segmented_docs)
-            end_index = decision_maker.get_end_index(i)
+                print('finalize_method:::::',finalize_method)
+                decision_maker = TfidfDecisionMaker \
+                    if finalize_method == 'select_tfidf' else Word2vecDecisionMaker
+                decision_maker = decision_maker(segmented_docs,alpha=alpha)
+            end_index,similaritys = decision_maker.get_end_index(i)
             if end_index != i:
-                content[2] += ''.join(split_sentence[i+1:end_index+1])
+                content[2] += ''.join(["{}({})".format(sen,simi) for sen,simi in zip(split_sentence[i+1:end_index+1],similaritys)])
             result.extend([content])
         return result
 
@@ -133,8 +135,8 @@ LTPM = LTPManager(data_dir=LTP_MODEL_PATH)
 SE = SpeechExtractor(synonyms_path=SYNONYMS_PATH, ltp_manager=LTPM)
 
 
-def get_speech(para,finalize_method):
-    return SE.get_speech(para,finalize_method)
+def get_speech(para,finalize_method, alpha):
+    return SE.get_speech(para,finalize_method,alpha)
 
 
 test_doc = """
