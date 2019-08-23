@@ -15,22 +15,24 @@ app = Flask(__name__, static_url_path="")
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
-        return render_template('index_naive.html',origin_text=test_doc,select_tfidf='checked')
+        return render_template('index_naive.html',origin_text=test_doc)
     else:
-        print(request.form)
         speech = request.form['speech']
-        finalize_method = request.form['inlineRadioOptions']
-        print(finalize_method)
-        if finalize_method == 'select_tfidf':
-            alpha = float(request.form['tfidf_alpha'])
-        else:
-            alpha = float(request.form['Word2vc_alpha'])
-        extration_result = get_speech(speech,finalize_method, alpha)
+        extration_result = get_speech(speech)
         print(extration_result)
+        return render_template('index_naive.html', speech=extration_result,origin_text=speech)
 
-        return render_template('index_naive.html',\
-            speech=extration_result,origin_text=speech,**{finalize_method:'checked'},alpha=alpha)
-
+@app.route('/my_page', methods=['GET', 'POST'])
+def my_page_func():
+    if request.method == 'GET':
+    ## this if-else statement is for the purpuse of distiguishing between diffrent http request method. 
+    ## and we can respond in different ways.
+        return render_template('charts.html',origin_text=test_doc)
+    else:
+        speech = request.form['speech']
+        extration_result = get_speech(speech)
+        print(extration_result)
+        return render_template('charts.html', speech=extration_result,origin_text=speech)
 
 @app.route('/extration/<speech>/', methods=['GET'])
 def extration(speech):
