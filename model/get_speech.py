@@ -10,7 +10,7 @@ from utils.load_data import load_synonyms
 from config import SYNONYMS_PATH, LTP_MODEL_PATH
 
 from model.speech import TfidfDecisionMaker, Word2vecDecisionMaker
-
+from utils import write_a_log
 class LTPManager:
     """
     有关LTP语言包的函数和方法
@@ -88,6 +88,8 @@ class SpeechExtractor:
             # 判断句子中是否存在synonyms
             postags = self.ltp_manager.get_sentence_pos(words)
             netags = self.ltp_manager.NER(words, postags)
+            write_a_log('who_say_what','postags',list(postags))
+            write_a_log('who_say_what','netags',list(netags))
             if set(netags) & self.ner_set:
                 # 判断句子中是否存在NER实体，我怀疑这一句是否有效
                 arcs = self.ltp_manager.dependency_parsing(words, postags)
@@ -103,21 +105,23 @@ class SpeechExtractor:
     def get_speech(self, para, finalize_method, alpha):
         # Get someone's speech from a paragraph
         result = list()
+        para =  para.replace('\\n','').replace('\u3000','')
         split_sentence = self.ltp_manager.split_sentences(para)
         segmented_docs = [self.ltp_manager.segmentor.segment(s) for s in split_sentence]
+        write_a_log('get_speech','segmented_docs',segmented_docs)
         decision_maker = None
         for i, sen in enumerate(segmented_docs):
             content = self.who_say_what(sen)
             if not content:
                 continue
             if decision_maker is None:
-                print('finalize_method:::::',finalize_method)
+                # print('finalize_method:::::',finalize_method)
                 decision_maker = TfidfDecisionMaker \
                     if finalize_method == 'select_tfidf' else Word2vecDecisionMaker
                 decision_maker = decision_maker(segmented_docs,alpha=alpha)
             end_index,similaritys = decision_maker.get_end_index(i)
             if end_index != i:
-                content[2] += ''.join(["{}({})".format(sen,simi) for sen,simi in zip(split_sentence[i+1:end_index+1],similaritys)])
+                content[2] += ''.join([sen for sen in split_sentence[i+1:end_index+1]])
             result.extend([content])
         return result
 

@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 from model.get_speech import get_speech,test_doc
-
+from utils import create_a_log,write_a_log,close_a_log
 import json
 app = Flask(__name__, static_url_path="")
 
@@ -17,38 +17,37 @@ def index():
     if request.method == 'GET':
         return render_template('index_naive.html',origin_text=test_doc,select_tfidf='checked')
     else:
+        create_a_log()
         print(request.form)
         speech = request.form['speech']
         finalize_method = request.form['inlineRadioOptions']
         print(finalize_method)
+        write_a_log('index','speech',speech)
+        write_a_log('index','speech',finalize_method)
         if finalize_method == 'select_tfidf':
             alpha = float(request.form['tfidf_alpha'])
         else:
             alpha = float(request.form['Word2vc_alpha'])
+        write_a_log('index','alpha',alpha)
         extration_result = get_speech(speech,finalize_method, alpha)
         print(extration_result)
-
+        write_a_log('index','extration_result',extration_result)
+        close_a_log()
         return render_template('index_naive.html',\
             speech=extration_result,origin_text=speech,**{finalize_method:'checked'},alpha=alpha)
 
 @app.route('/my_page', methods=['GET', 'POST'])
 def my_page_func():
     if request.method == 'GET':
-        return render_template('charts.html',origin_text=test_doc,select_tfidf='checked')
+        return render_template('charts.html',origin_text=test_doc)
     else:
         print(request.form)
         speech = request.form['speech']
-        finalize_method = request.form['inlineRadioOptions']
-        print(finalize_method)
-        if finalize_method == 'select_tfidf':
-            alpha = float(request.form['tfidf_alpha'])
-        else:
-            alpha = float(request.form['Word2vc_alpha'])
-        extration_result = get_speech(speech,finalize_method, alpha)
+        extration_result = get_speech(speech,'select_tfidf', 0.2)
         print(extration_result)
 
         return render_template('charts.html',\
-            speech=extration_result,origin_text=speech,**{finalize_method:'checked'},alpha=alpha)
+            speech=extration_result,origin_text=speech)
 
 
 @app.route('/extration/<speech>/', methods=['GET'])

@@ -3,7 +3,7 @@ from sklearn.metrics.pairwise import  cosine_similarity
 from utils.load_data import load_stopwords
 from gensim.models import KeyedVectors
 import numpy as np
-
+from utils import write_a_log
 from config import WORD2VER_MODEL_PATH
 word2vec_model = KeyedVectors.load(WORD2VER_MODEL_PATH, mmap='r')
 
@@ -42,6 +42,7 @@ class TfidfDecisionMaker:
                 similaritys.append(similarity[0][0])
             else:
                 break
+        write_a_log('DecisionMaker','get_end_index',similaritys)
         return end_index ,similaritys
 
 class Word2vecDecisionMaker(TfidfDecisionMaker):

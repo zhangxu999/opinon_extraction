@@ -316,29 +316,22 @@
 
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
+            
               <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">新闻总量</div>
-                      <div class="row no-gutters align-items-center">
-                        <div class="col-auto">
-                        <div class="h5 mb-0 font-weight text-gray-800">___</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">共有 89606篇 新闻</div>
-                        <div class="h5 mb-0 font-weight text-gray-800">___</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">来自 966家 媒体</div>
-                        <div class="h5 mb-0 font-weight text-gray-800">___</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">均发布于 2017年6月</div>
-                        <div class="h5 mb-0 font-weight text-gray-800">___</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">横跨 233个 领域</div>
-                        </div>
+                      <div class="text-center">
+                          <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 40rem;" src="img/news.png" alt="">
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
- 
+
+
             <!-- Pending Requests Card Example -->
             <div class="col-xl-6 col-md-6 mb-4">
               <div class="card border-left-warning shadow h-100 py-2">
@@ -507,9 +500,10 @@
                 </div>
                 <div class="card-body">
                   <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 40rem;" src="img/project_architecture.jpg" alt="">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 40rem;" src="img/project_architecture.png" alt="">
                   </div>
-                  <p>项目</p>
+                  <p>本项目利用自然语言处理（NLP）技术对八万多条新闻进行处理，提取新闻人物及其言论。让读者能迅速了解文章中的人物观点。</p>
+                  <p>项目编写语言为Python，前端运用到Bootstrap和D3。自然语言处理主要模块包括：寻找触发词、命名实体识别、依存关系分析、言论结束判断等。</p>
                 </div>
               </div>
 
@@ -581,9 +575,9 @@
   <!-- Word cloud scripts -->
 <script>
 // List of words
-var myWords = [{word: "市民", size: "100"}, {word: "习近平", size: "30"},
-{word: "发改委", size: "10"}, {word: "哈佛大学", size: "20"},{word: "杜兰特", size: "50"},{word: "央行", size: "60"},
-{word: "詹姆斯", size: "30"}, {word: "学生", size: "30"}]
+var myWords = [{word: "新华社", size: "120"}, {word: "路透", size: "80"},{word: "中国队", size: "50"}, {word: "联合国", size: "50"},{word: "习近平", size: "30"},{word: "特朗普", size: "36"},
+{word: "国务院", size: "30"}, {word: "纳达尔", size: "40"},{word: "李克强", size: "20"}, {word: "马克龙", size: "20"},{word: "焦科维奇", size: "17"},{word: "切尔西队", size: "20"},
+{word: "尤文图斯队", size: "25"}, {word: "普京", size: "10"},{word: "丁宁", size: "10"}, {word: "杜塞尔多夫", size: "5"},{word: "阿森纳队", size: "10"},{word: "韩国队", size: "20"},{word: "党中央", size: "30"}]
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
@@ -635,7 +629,10 @@ function draw(words) {
 // List of words
 var myWords = [{word: "说", size: "100"}, {word: "认为", size: "30"},
 {word: "表示", size: "10"}, {word: "告诉", size: "20"},{word: "评论", size: "50"},{word: "声称", size: "60"},
-{word: "质问", size: "30"}, {word: "说道", size: "30"},{word: "却说", size: "30"}, {word: "反问", size: "30"} ]
+{word: "质问", size: "30"}, {word: "说道", size: "30"},{word: "却说", size: "10"}, {word: "反问", size: "30"},
+{word: "问道", size: "20"}, {word: "坚称", size: "40"},{word: "责备", size: "10"}, {word: "谈及", size: "30"},
+{word: "觉得", size: "50"},{word: "回忆到", size: "10"},{word: "询问", size: "30"}, {word: "宣称", size: "25"},
+{word: "揭发", size: "10"}, {word: "坚信", size: "20"},{word: "谩骂", size: "30"}, {word: "解释", size: "40"} ]
 
 // set the dimensions and margins of the graph
 var margin = {top: 10, right: 10, bottom: 10, left: 10},
